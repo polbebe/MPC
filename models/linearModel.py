@@ -38,6 +38,7 @@ class BNN(nn.Module):
 
         out = self.model(x)
         mean, logvar = torch.chunk(out, 2, -1)
+        mean = mean + states
         max_logvar = torch.ones_like(logvar)
         min_logvar = -torch.ones_like(logvar)
         logvar = max_logvar - self.softplus(max_logvar - logvar)
@@ -45,9 +46,10 @@ class BNN(nn.Module):
         if train:
             return mean, logvar
         else:
-            # var = torch.exp(logvar)
-            # return mean + torch.randn_like(mean, device=mean.device) * var.sqrt()
-            return mean
+            # mean = mean + states
+            var = torch.exp(logvar)
+            return mean + torch.randn_like(mean, device=mean.device) * var.sqrt()
+            # return mean
 
     def loss(self, pred, target, include_var=True):
         if include_var:
@@ -63,6 +65,8 @@ class BNN(nn.Module):
         return l
 
     def get_loss(self, states, actions, targets):
+        # targets = targets - states
+
         preds = self.forward(states, actions, train=True)
         loss = self.loss(preds, targets)
         return loss
@@ -75,6 +79,26 @@ class BNN(nn.Module):
         self.optimizer.step()
         self.model.eval()
         return loss.item()
+
+    def train_set(self, all_states, all_acts, all_targets):
+        losses = []
+        i = 0
+        self.model.train()
+        self.optimizer.zero_grad()
+        p = np.random.permutation(len(data))
+        while i < len(data):
+            idx = p[i:i+batch_size]
+            states, actions, targets = all_states[idx], all_acts[idx], all_targets[idx]
+            states = states.to(model.device)
+            actions = actions.to(model.device)
+            targets = targets.to(model.device)
+            loss = self.get_loss(states, actions, targets)
+            loss.backward()
+            losses.append(loss.item())
+            i += batch_size
+        self.optimizer.step()
+        self.model.eval()
+        return np.mean(losses)
 
     def sample(self, data, batch_size=256):
         P = np.random.permutation(len(data))[:batch_size]

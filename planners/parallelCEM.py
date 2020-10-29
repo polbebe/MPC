@@ -14,32 +14,42 @@ class CEM:
         self.act_dim = sum(act_space.shape)
         self.nsteps=nsteps
         self.alpha = 0.1
+        self.p, self.maxits, self.N, self.Ne, self.epsilon = 20, 5, 500, 50, 0.001
 
-    def plan_move(self, obs, init_mu=None, nsteps=None):
+    def plan_move(self, obs, init_mu=None, init_sigma=None, nsteps=None):
         if nsteps is None:
             nsteps = self.nsteps
-        t, maxits, N, Ne, epsilon = 0, 20, 500, 50, 0.001
-        if init_mu is None:
-            mu = torch.zeros((nsteps, self.act_dim), device=device)
-        else:
-            mu = init_mu
-        sigma = torch.ones((nsteps, self.act_dim), device=device)
+        t, = 0,
+        if init_mu is None:     mu = torch.zeros((nsteps, self.act_dim), device=device)
+        else:                   mu = init_mu
+        if init_sigma is None:  sigma = torch.ones((nsteps, self.act_dim), device=device)*0.25
+        else:                   sigma = init_sigma
 
-        obs = torch.from_numpy(np.repeat(np.expand_dims(obs, 0), N, 0)).to(device).to(torch.float32)
+        # Expand initial seed observations
+        obs = torch.from_numpy(obs).to(device).to(torch.float32)
+        obs = obs.unsqueeze(0).unsqueeze(0).expand(self.N, self.p, -1)
+        # obs = torch.from_numpy(np.repeat(np.expand_dims(obs, 0), N, 0)).to(device).to(torch.float32)
         self.sim.init(obs)
 
-        for i in range(nsteps):
-            if not (mu[i] == 0).all():
-                sigma[i] = 0.1
-        while t < maxits and sigma.max() > epsilon:
-            A = torch.normal(mu.unsqueeze(0).repeat(N, 1, 1), sigma.unsqueeze(0).repeat(N, 1, 1))
+        while t < self.maxits and sigma.max() > self.epsilon:
+            # Produce Action Distribution
+            A = torch.normal(mu.unsqueeze(0).repeat(self.N, 1, 1), sigma.unsqueeze(0).repeat(self.N, 1, 1))
             A = A.clamp(-1, 1)
+
+            # Expanding for particles as per TS
+            A_expanded = A.unsqueeze(2).expand(-1, -1, self.p, -1)
+
             state = self.sim.save()
-            S = torch.stack([self.sim.sim_step(A[:,j]) for j in range(nsteps)])
-            R = torch.stack([self.rew_fn(S[j].transpose(0,1)) for j in range(nsteps)])
+            S = torch.stack([self.sim.sim_step(A_expanded[:,j]) for j in range(nsteps)])
+            R = torch.stack([self.rew_fn(S[j].transpose(0,-1)) for j in range(nsteps)])
+
+            # Collecting over particles as per TS
+            R = torch.mean(R, 1)
+
             self.sim.load(state)
+
             R_sum = torch.sum(R, 0)
-            A = A[torch.argsort(-R_sum)[:Ne]]
+            A = A[torch.argsort(-R_sum)[:self.Ne]]
             new_mu, new_sigma = torch.mean(A, 0), torch.std(A, 0)
 
             mu = self.alpha * mu + (1-self.alpha) * new_mu
@@ -47,15 +57,18 @@ class CEM:
             t += 1
 
         # print('Pred R: '+str(R[0][torch.argmax(R_sum)].item()))
-        return A[0]
+        return mu, sigma
 
 if __name__ == '__main__':
     import gym
     import time
     import sys
     from sims.envSim import envSim
+    from envs.pinkpanther import PinkPantherEnv
     nsteps = 10
-    env = envSim(gym.make('Ant-v2').env)
+    # env = gym.make('Ant-v2').env
+    env = PinkPantherEnv(render=False)
+    env = envSim(env)
     # env.render(mode='human')
     planner = CEM(env, env.action_space.shape[0])
     done = False

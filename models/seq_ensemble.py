@@ -23,10 +23,19 @@ class Ensemble(nn.Module):
 
     def forward(self, states, actions):
         # preds = [self.models[i](states, actions) for i in self.elite_idx]
-        i = self.elite_idx[np.random.randint(0, self.n_elites)]
+        # i = self.elite_idx[np.random.randint(0, self.n_elites)]
+        i = np.random.randint(0, self.pop_size)
         # i = 0
         pred = self.models[i](states, actions)
         return pred
+
+
+    def train_set(self, states, actions, targets):
+        losses = []
+        for model in self.models:
+            loss = model.train_set(states, actions, targets)
+            losses.append(loss)
+        return np.mean(losses)
 
     def train_step(self, states, actions, targets):
         assert len(states) == len(actions) == len(targets)

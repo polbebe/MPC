@@ -5,7 +5,7 @@ import torch
 import numpy as np
 
 class Ensemble(nn.Module):
-    def __init__(self, state_dim, act_dim, pop_size=8, n_elites=6, parallel=False):
+    def __init__(self, state_dim, act_dim, pop_size=5, n_elites=5, parallel=False):
         super(Ensemble, self).__init__()
         if parallel:
             self.ensemble = ParallelEnsemble(state_dim, act_dim, pop_size, n_elites)
@@ -21,6 +21,9 @@ class Ensemble(nn.Module):
 
     def train_step(self, states, actions, targets):
         return self.ensemble.train_step(states, actions, targets)
+
+    def train_set(self, states, actions, targets):
+        return self.ensemble.train_set(states, actions, targets)
 
     def set_norm(self, mean,std):
         return self.ensemble.set_norm(mean, std)
