@@ -87,7 +87,7 @@ def train_epoch(model, data, batch_size=32):
     return np.mean(losses)
 
 def train_on_policy(env, model, planner):
-    steps = 10000
+    steps = 100000
     obs = env.reset()
     data = []
     ep_l = 0
@@ -211,8 +211,8 @@ if __name__ == '__main__':
     from envs.pinkpanther import PinkPantherEnv
     # env = gym.make('Ant-v2').env
     # env = gym.make('HalfCheetah-v1').env
-    env = PinkPantherEnv(render=True)
-    # env = gym.make('HalfCheetah-v2').env
+    # env = PinkPantherEnv(render=True)
+    env = gym.make('HalfCheetah-v2').env
     # env = gym.make('Pusher-v2').env
     env = rewWrapper(env)
     # env = HalfCheetahEnv()
@@ -226,13 +226,13 @@ if __name__ == '__main__':
 
     # train_model(env, model)
     # torch.save(model, 'pinkpanther_ensemble.pt')
-    model = torch.load('pinkpanther_ensemble.pt')
+    # model = torch.load('pinkpanther_ensemble.pt')
 
     planner = CEM(modelSim(model), env.action_space, nsteps=nsteps)
-    # train_on_policy(env, model, planner)
+    train_on_policy(env, model, planner)
 
     # torch.save(model, 'halfcheetah_100K_on_policy_norm_ensemble.pt')
-    # torch.save(model, 'halfcheetah_nonorm_ensemble.pt')
+    torch.save(model, 'halfcheetah_norm_ensemble.pt')
     # model = torch.load('halfcheetah_norm_ensemble.pt')
     # model = torch.load('ensemble.pt')
     # model = torch.load('ant_100K_norm_ensemble.pt')

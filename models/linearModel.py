@@ -39,8 +39,8 @@ class BNN(nn.Module):
         out = self.model(x)
         mean, logvar = torch.chunk(out, 2, -1)
         mean = mean + states
-        max_logvar = torch.ones_like(logvar)
-        min_logvar = -torch.ones_like(logvar)
+        max_logvar = torch.ones_like(logvar) / 2.0
+        min_logvar = -torch.ones_like(logvar) * 10.0
         logvar = max_logvar - self.softplus(max_logvar - logvar)
         logvar = min_logvar + self.softplus(logvar - min_logvar)
         if train:
