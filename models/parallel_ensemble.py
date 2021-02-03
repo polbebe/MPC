@@ -1,6 +1,5 @@
 from torch import nn
 import torch
-from models.linearModel import BNN
 import numpy as np
 import time
 import torch.multiprocessing as mp
@@ -8,7 +7,7 @@ import torch.multiprocessing as mp
 ctx = mp.get_context("fork")
 
 class Ensemble(nn.Module):
-    def __init__(self, state_dim, act_dim, pop_size, n_elites):
+    def __init__(self, state_dim, act_dim, pop_size, n_elites, Network):
         super(Ensemble, self).__init__()
         self.pop_size = pop_size
         self.n_elites = n_elites
@@ -17,6 +16,7 @@ class Ensemble(nn.Module):
         self.spawn_processes()
         self.elite_counter = np.zeros(self.pop_size)
         self.elite_idx = np.random.permutation(self.pop_size)[:self.n_elites]
+        self.Network = Network
 
     def spawn_processes(self):
         self.processes = []
@@ -31,7 +31,7 @@ class Ensemble(nn.Module):
             print('Process '+str(i)+' Started')
 
     def fork_controller(self, q_in, q_out):
-        model = BNN(self.state_dim, self.act_dim)
+        model = self.Network(self.state_dim, self.act_dim)
         p_idx = q_in.get()
         q_out.put('Ready')
         while True:

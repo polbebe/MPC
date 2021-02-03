@@ -1,16 +1,16 @@
 from torch import nn
 import torch
-from models.linearModel import BNN
 import numpy as np
 
 class Ensemble(nn.Module):
-    def __init__(self, state_dim, act_dim, pop_size, n_elites):
+    def __init__(self, state_dim, act_dim, pop_size, n_elites, Network):
         super(Ensemble, self).__init__()
         self.pop_size = pop_size
         self.n_elites = n_elites
-        self.models = [BNN(state_dim, act_dim) for _ in range(self.pop_size)]
+        self.models = [Network(state_dim, act_dim) for _ in range(self.pop_size)]
         self.elite_counter = np.zeros(self.pop_size)
         self.elite_idx = np.random.permutation(self.pop_size)[:self.n_elites]
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     def to(self, device):
         for i in range(self.pop_size):
@@ -28,7 +28,6 @@ class Ensemble(nn.Module):
         # i = 0
         pred = self.models[i](states, actions)
         return pred
-
 
     def train_set(self, states, actions, targets):
         losses = []
@@ -60,3 +59,16 @@ class Ensemble(nn.Module):
         self.elite_idx = np.argsort(valid_losses)[:self.n_elites]
 
         return np.mean(train_losses), np.mean(valid_losses)
+
+    def sample(self, data, batch_size=256):
+        P = np.random.permutation(len(data))[:batch_size]
+        states, actions, targets = [], [], []
+        for p in P:
+            state, action, target = data[p]
+            states.append(state)
+            actions.append(action)
+            targets.append(target)
+        states, actions, targets = np.array(states, dtype=np.float32), np.array(actions, dtype=np.float32), np.array(targets, dtype=np.float32)
+        states, actions, targets = torch.from_numpy(states), torch.from_numpy(actions), torch.from_numpy(targets)
+        states, actions, targets = states.to(self.device), actions.to(self.device), targets.to(self.device)
+        return states, actions, targets

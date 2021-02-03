@@ -1,7 +1,7 @@
 from planners.parallelCEM import CEM
+from models.seq_ensemble import Ensemble
 from models.linearModel import BNN
-from models.ensemble import Ensemble
-from sims.modelSim import modelSim
+from sims.sim import modelSim
 import gym
 import torch
 import numpy as np
@@ -176,26 +176,7 @@ def plan_episode(env, planner):
         real_rs.append(r)
         obs_hist.append(obs)
 
-    # print('Ep R: '+str(ep_r))
-    # print('Pred Ep R: '+str(pred_ep_r))
-    # print('Ep L: '+str(ep_l))
-    # print('Time: '+str(time.time()-start))
-    # print('')
-    # return obs_hist, ep_r, pred_ep_r
     return obs_hist, real_rs, pred_rs
-
-# Results:
-# Null (aka all 0 action vectors): 0
-# Random: -350
-# Learned @10K w/ 20 step lookahead: 275
-# Learned @10K w/ 20 step lookahead and act seq: -1300
-# Perfect w/ 20 step lookahead: 7000
-
-# Learned @ 25K w/ 10 step lookahead halfcheetah 350
-# Learned @ 25K w/ 20 step lookahead halfcheetah 740
-# Learned @ 25K w/ 30 step lookahead halfcheetah 740
-
-# Ant @ 100K w/ 20 steps and stochastic action 788
 
 class rewWrapper:
     def __init__(self, env):
@@ -225,19 +206,12 @@ if __name__ == '__main__':
     env = PinkPantherEnv(render=False)
     env = rewWrapper(env)
     state_dim, act_dim = env.observation_space.shape[0], env.action_space.shape[0]
-
-    # steps = 100
-    # train_steps = [0, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000]
-    # train_steps = np.concatenate([np.arange(10)*100, np.arange(1,51)*1000])
     train_steps = np.arange(201)*100
     n_trials, n_runs = 5, 5
-    # results = np.zeros((len(train_steps), 1+2*n_trials))
     results, losses = dict(), dict()
-    # results = np.load('MPC_results.npy')
     pos_paths = []
     print('Starting')
-    # for steps in train_steps:
-    models = [Ensemble(state_dim, act_dim) for _ in range(n_runs)]
+    models = [Ensemble(state_dim, act_dim, pop_size=5, n_elites=5, Network=BNN) for _ in range(n_runs)]
     datas = [[] for i in range(n_runs)]
     for i in range(len(train_steps)):
         start = time.time()
@@ -245,9 +219,6 @@ if __name__ == '__main__':
         losses[train_steps[i]] = []
         for j in range(n_runs):
             pred_rs, real_rs = [], []
-            # models = [Ensemble(state_dim, act_dim) for _ in range(n_runs)]
-            # model = Ensemble(state_dim, act_dim)
-            # model.to(model.device)
             if train_steps[i] > 0:
                 models[j], loss, datas[j] = train_model(100, env, models[j], datas[j])
                 losses[train_steps[i]].append(loss)
@@ -260,7 +231,6 @@ if __name__ == '__main__':
                 pred_rs.extend(pred_ep_r)
             results[train_steps[i]].append((real_rs, pred_rs))
             pkl.dump(results, open('MPC_results.pkl', 'wb+'))
-        # print([len(d) for d in datas])
         assert train_steps[i] == np.mean([len(d) for d in datas])
         print(str(train_steps[i]) +' Finished in '+str(round(time.time()-start,3))+'s')
     print('')
