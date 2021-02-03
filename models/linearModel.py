@@ -19,6 +19,7 @@ class BNN(nn.Module):
         self.optimizer = optim.Adam(self.parameters(), lr=self.lr)
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.norm_mean = None
+        self.to(self.device)
 
     def set_norm(self, mean,std):
         self.norm_mean = mean.to(self.device).float()

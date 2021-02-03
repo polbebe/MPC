@@ -55,9 +55,9 @@ class CEM:
             mu = self.alpha * mu + (1-self.alpha) * new_mu
             sigma = self.alpha * sigma + (1 - self.alpha) * new_sigma
             t += 1
-
-        # print('Pred R: '+str(R[0][torch.argmax(R_sum)].item()))
-        return mu, sigma
+        pred_r = R[0][torch.argmax(R_sum)].item()
+        # print('Pred R: '+str())
+        return mu, sigma, pred_r
 
 if __name__ == '__main__':
     import gym
