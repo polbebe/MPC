@@ -3,15 +3,14 @@ from models.parallel_ensemble import Ensemble as ParallelEnsemble
 from models.seq_ensemble import Ensemble as SeqEnsemble
 import torch
 import numpy as np
-from models.linearModel import BNN
 
 class Ensemble(nn.Module):
-    def __init__(self, state_dim, act_dim, pop_size=5, n_elites=5, parallel=False, Network=BNN):
+    def __init__(self, state_dim, act_dim, pop_size=5, n_elites=5, parallel=False):
         super(Ensemble, self).__init__()
         if parallel:
-            self.ensemble = ParallelEnsemble(state_dim, act_dim, pop_size, n_elites, Network)
+            self.ensemble = ParallelEnsemble(state_dim, act_dim, pop_size, n_elites)
         else:
-            self.ensemble = SeqEnsemble(state_dim, act_dim, pop_size, n_elites, Network)
+            self.ensemble = SeqEnsemble(state_dim, act_dim, pop_size, n_elites)
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     def to(self, device):

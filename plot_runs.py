@@ -3,12 +3,6 @@ import pickle as pkl
 from scipy import stats
 import matplotlib.pyplot as plt
 
-def smooth(Y, w=10):
-    r = np.zeros_like(Y)
-    for i in range(len(Y)):
-        r[i] = np.mean(Y[max(0,i-w):i])
-    return r
-
 # results = np.load('new_MPC_results.npy')
 # results = np.load('MPC_results.npy')
 # for j in range(1,len(results)):
@@ -39,24 +33,21 @@ for key in results:
     data.append(key)
 
 R_mean, R_std = np.array(R_mean), np.array(R_std)
-R_mean = smooth(R_mean)
 plt.plot(data, R_mean)
 plt.fill_between(data, R_mean-R_std, R_mean+R_std, alpha=0.5)
 # plt.ylim(0, 1.1)
 plt.xlabel('Datapoints')
 plt.ylabel('R^2')
 # plt.xscale('log')
-plt.grid()
+# plt.grid()
 plt.show()
 
 scores_mean, scores_std = np.array(scores_mean), np.array(scores_std)
-scores_mean = smooth(scores_mean)
 plt.plot(data, scores_mean)
 plt.fill_between(data, scores_mean-scores_std, scores_mean+scores_std, alpha=0.5)
 plt.xlabel('Datapoints')
 plt.ylabel('Score')
 # plt.xscale('log')
-plt.grid()
 plt.show()
 
 data = []
@@ -72,7 +63,6 @@ for key in losses:
     data.append(key)
 train_mean, train_std = np.array(train_mean), np.array(train_std)
 valid_mean, valid_std = np.array(valid_mean), np.array(valid_std)
-train_mean = smooth(train_mean)
 plt.plot(data, train_mean, label='Training')
 plt.fill_between(data, train_mean+train_std, train_mean-train_std, alpha=0.5)
 # plt.plot(data, valid_mean, label='Validation')
@@ -80,26 +70,24 @@ plt.fill_between(data, train_mean+train_std, train_mean-train_std, alpha=0.5)
 plt.xlabel('Datapoints')
 plt.ylabel('Loss')
 # plt.xscale('log')
-plt.grid()
 plt.show()
 
 # for key in results:
-# key=0
-# X = [run[1] for run in results[key]]
-# Y = [run[0] for run in results[key]]
-# X, Y = np.array(X[0]), np.array(Y[0])
-# # Sum over episode
-# # Y = np.sum(np.array(np.split(Y, 10)), 1)
-# # X = np.sum(np.array(np.split(X, 10)), 1)
-# plt.scatter(X, Y)
-# m, b, r, p, std_err = stats.linregress(X, Y)
-# print(str(key)+': '+str(r**2))
-# plt.title('Trained on '+str(key)+' datapoints')
-# plt.plot(X, m*X+b, label=str(key))
-# # plt.legend()
-# plt.xlabel('Pred Scores')
-# plt.ylabel('Real Scores')
-# plt.show()
+#     X = [run[1] for run in results[key]]
+#     Y = [run[0] for run in results[key]]
+#     X, Y = np.array(X[0]), np.array(Y[0])
+#     # Sum over episode
+#     # Y = np.sum(np.array(np.split(Y, 10)), 1)
+#     # X = np.sum(np.array(np.split(X, 10)), 1)
+#     plt.scatter(X, Y)
+#     m, b, r, p, std_err = stats.linregress(X, Y)
+#     print(str(key)+': '+str(r**2))
+#     plt.title('Trained on '+str(key)+' datapoints')
+#     plt.plot(X, m*X+b, label=str(key))
+#     # plt.legend()
+#     plt.xlabel('Pred Scores')
+#     plt.ylabel('Real Scores')
+#     plt.show()
 
 # for i in range(len(results)):
 # for i in range(1):
