@@ -2,15 +2,23 @@ import numpy as np
 
 class CEM:
     def __init__(self, sim, act_space, rew_fn=None, nsteps=10):
-        self.act_high = act_space.high
-        self.act_low = act_space.low
+        try:
+            self.act_high = act_space.high
+            self.act_low = act_space.low
+        except:
+            self.act_high, self.act_low = None, None
 
         self.sim = sim
         if rew_fn is None:
             rew_fn = lambda obs: obs[0]
         self.rew_fn = rew_fn
-        self.act_dim = sum(act_space.shape)
+        self.rew_fn = rew_fn
+        try:
+            self.act_dim = sum(act_space.shape)
+        except:
+            self.act_dim = act_space
         self.nsteps=nsteps
+        self.alpha = 0.1
 
     def plan_move(self, obs, init_mu=None, nsteps=None):
         self.sim.init(obs)
@@ -26,6 +34,9 @@ class CEM:
         for i in range(nsteps):
             if not (mu[i] == 0).all():
                 sigma[i] = 0.1
+        best_act = None
+        best_r = None
+        r_avg = None
         while t < maxits and (sigma > epsilon).any():
             A = np.random.normal(mu, sigma, size=(N, nsteps, self.act_dim))
             S = []
@@ -34,32 +45,35 @@ class CEM:
                 state = self.sim.save()
                 s = np.stack([self.sim.sim_step(A[i][j]) for j in range(nsteps)])
                 r = np.stack([self.rew_fn(s[j]) for j in range(nsteps)])
-                # r = np.stack([self.rew_fn(self.sim.sim_step(X[i][j])) for j in range(nsteps)])
                 self.sim.load(state)
-                # assert self.sim.save() == state
                 S.append(s)
                 R.append(r)
             R, S = np.stack(R), np.stack(S)
             R_sum = np.sum(R, 1)
             A = A[np.argsort(-R_sum)[:Ne]]
-            mu, sigma = np.mean(A, 0), np.std(A, 0)
+            new_mu, new_sigma = np.mean(A, 0), np.std(A, 0)
+            if r_avg is None or np.mean(R_sum[np.argsort(-R_sum)[:Ne]]) > r_avg:
+                r_avg = np.mean(R_sum[np.argsort(-R_sum)[:Ne]])
+                mu = self.alpha * mu + (1-self.alpha) * new_mu
+                sigma = self.alpha * sigma + (1 - self.alpha) * new_sigma
             t += 1
-        # print('Pred 1 Step Rew: '+str(R[np.argmax(R_sum)][0]))
-        # print('Pred 2 Step Rew: '+str(R[np.argmax(R_sum)][1]))
-        print(R[np.argmax(R_sum)][0])
-        # print(np.max(R_sum))
-        return A[0]
-        # return mu
+            if best_r is None or np.max(R_sum) > best_r:
+                best_r = np.max(R_sum)
+                best_act = A[0]
+            print(t, r_avg, np.max(R_sum), np.max(sigma))
+        print(best_r, best_act)
+        return best_act
 
 if __name__ == '__main__':
-    import gym
     import time
     import sys
-    from sims.envSim import envSim
-    nsteps = 20
-    env = envSim(gym.make('Ant-v2').env)
+    from sims.sinGaitSim import sinGaitSim, act
+    from envs.pinkpanther import PinkPantherEnv
+    nsteps = 1
+    env = PinkPantherEnv(render=False)
+    env = sinGaitSim(env)
     # env.render(mode='human')
-    planner = CEM(env, env.action_space.shape)
+    planner = CEM(env, env.action_space)
     done = False
     obs = env.reset()
     ep_r = 0
@@ -67,27 +81,16 @@ if __name__ == '__main__':
     n = 0
     action_seq = np.zeros((nsteps, planner.act_dim))
     start = time.time()
+    params = planner.plan_move(obs, action_seq, nsteps=nsteps)
+    print(params)
+    env = PinkPantherEnv(render=True)
     while True:
-        next_seq = planner.plan_move(obs, action_seq, nsteps=nsteps)
-        action = next_seq[0]
-        action_seq[:-1] = next_seq[1:]
-        new_obs1, r, done, info = env.step(action)
-        sys.stdout.write('Step: '+str(ep_l)+' in '+str(round(time.time()-start,3))+' seconds\t\t\r')
-        ep_r += r
-        ep_l += 1
-        # if done:
-        if ep_l >= 1000:
-            n += 1
-            print('Episode '+str(n)+':')
-            print('Ep R: '+str(ep_r))
-            print('Ep L: '+str(ep_l))
-            print('Time: '+str(time.time()-start))
-            print('')
-            done = False
-            ep_r = 0
-            ep_l = 0
-            start = time.time()
-
-            action_seq = np.zeros((nsteps, planner.act_dim))
-            obs = env.reset()
-    print('Finished')
+        R = 0
+        obs = env.reset()
+        for t in range(1000):
+            action = act(obs, t, *params)
+            obs, r, done, info = env.step(action)
+            time.sleep(0.1)
+            R += r
+        print(R)
+        time.sleep(5)

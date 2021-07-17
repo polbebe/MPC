@@ -218,19 +218,15 @@ if __name__ == '__main__':
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     env = PinkPantherEnv(render=False)
     env = rewWrapper(env)
-    state_dim, act_dim = env.observation_space.shape[0], env.action_space.shape[0]
 
-    # steps = 100
-    # train_steps = [0, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000]
-    # train_steps = np.concatenate([np.arange(10)*100, np.arange(1,51)*1000])
-    train_steps = np.arange(201)*100
-    n_trials, n_runs = 10, 5
-    # results = np.zeros((len(train_steps), 1+2*n_trials))
+    # rew_fn = lambda x: x[0] - 0.5*x[1]
+
+    state_dim, act_dim = env.observation_space.shape[0], env.action_space.shape[0]
+    train_steps = np.arange(101)*100
+    n_trials, n_runs = 20, 5
     results, losses = dict(), dict()
-    # results = np.load('MPC_results.npy')
     pos_paths = []
     print('Starting')
-    # for steps in train_steps:
     models = [Ensemble(state_dim, act_dim) for _ in range(n_runs)]
     datas = [[] for i in range(n_runs)]
     for i in range(len(train_steps)):
@@ -239,9 +235,6 @@ if __name__ == '__main__':
         losses[train_steps[i]] = []
         for j in range(n_runs):
             pred_rs, real_rs = [], []
-            # models = [Ensemble(state_dim, act_dim) for _ in range(n_runs)]
-            # model = Ensemble(state_dim, act_dim)
-            # model.to(model.device)
             if train_steps[i] > 0:
                 models[j], loss, datas[j] = train_model(100, env, models[j], datas[j])
                 losses[train_steps[i]].append(loss)
@@ -254,7 +247,6 @@ if __name__ == '__main__':
                 pred_rs.extend(pred_ep_r)
             results[train_steps[i]].append((real_rs, pred_rs))
             pkl.dump(results, open('MPC_results.pkl', 'wb+'))
-        # print([len(d) for d in datas])
         assert train_steps[i] == np.mean([len(d) for d in datas])
         print(str(train_steps[i]) +' Finished in '+str(round(time.time()-start,3))+'s')
     print('')
