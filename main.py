@@ -216,7 +216,7 @@ if __name__ == '__main__':
     from envs.pinkpanther import PinkPantherEnv
     import pickle as pkl
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    env = PinkPantherEnv(render=False)
+    env = PinkPantherEnv(render=True)
     env = rewWrapper(env)
 
     # rew_fn = lambda x: x[0] - 0.5*x[1]

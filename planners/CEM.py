@@ -70,7 +70,7 @@ if __name__ == '__main__':
     from sims.sinGaitSim import sinGaitSim, act
     from envs.pinkpanther import PinkPantherEnv
     nsteps = 1
-    env = PinkPantherEnv(render=False)
+    env = PinkPantherEnv(render=True)
     env = sinGaitSim(env)
     # env.render(mode='human')
     planner = CEM(env, env.action_space)
