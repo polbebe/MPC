@@ -1,0 +1,743 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.5.1-0-g916b5db  Build Version: 1.5.7152.31018
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="PinkPanther_CML">
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="0.00454071999132192 6.47897566883972E-05 0.0652075601364906"
+        rpy="0 0 0" />
+      <mass
+        value="0.140325255511383" />
+      <inertia
+        ixx="0.000366286276832393"
+        ixy="7.33485979630388E-08"
+        ixz="-7.63809950386849E-05"
+        iyy="0.000945919015213186"
+        iyz="5.95557864844883E-08"
+        izz="0.00109187006228455" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 0.470588235294118 0.823529411764706 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/low_qual/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="lf_shoulder_link">
+    <inertial>
+      <origin
+        xyz="-0.03075 0.010763 0.045764"
+        rpy="0 0 0" />
+      <mass
+        value="0.0824" />
+      <inertia
+        ixx="1.9553E-05"
+        ixy="2.0818E-07"
+        ixz="3.2177E-07"
+        iyy="1.9067E-05"
+        iyz="-9.6011E-07"
+        izz="2.1806E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/low_qual/lf_shoulder_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/low_qual/lf_shoulder_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="LF_ARMPIT"
+    type="revolute">
+    <origin
+      xyz="0.086416 0.04808 0.020486"
+      rpy="1.5666 -5.102E-05 3.1416" />
+    <parent
+      link="base_link" />
+    <child
+      link="lf_shoulder_link" />
+    <axis
+      xyz="1 -5.102E-05 0" />
+    <limit
+      lower="-0.6"
+      upper="0.6"
+      effort="4"
+      velocity="0.188" />
+  </joint>
+  <link
+    name="lf_thigh_link">
+    <inertial>
+      <origin
+        xyz="0.059996 -0.034184 0.032377"
+        rpy="0 0 0" />
+      <mass
+        value="0.20467" />
+      <inertia
+        ixx="5.2641E-05"
+        ixy="-6.8704E-06"
+        ixz="-9.1195E-09"
+        iyy="0.0002077"
+        iyz="4.2931E-10"
+        izz="0.00019669" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/low_qual/lf_thigh_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/low_qual/lf_thigh_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="LF_ELBOW"
+    type="revolute">
+    <origin
+      xyz="-0.029275 -0.014657 0.021201"
+      rpy="0 0 -0.43549" />
+    <parent
+      link="lf_shoulder_link" />
+    <child
+      link="lf_thigh_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1"
+      upper="1.2"
+      effort="4"
+      velocity="0.188" />
+  </joint>
+  <link
+    name="lf_calf_link">
+    <inertial>
+      <origin
+        xyz="-0.0562746607594241 -0.0312019222312566 0.0300902624876031"
+        rpy="0 0 0" />
+      <mass
+        value="0.124150378027878" />
+      <inertia
+        ixx="2.7133125427073E-05"
+        ixy="6.52330853460605E-06"
+        ixz="-6.70500134135611E-09"
+        iyy="0.000259455346859976"
+        iyz="3.49049560417286E-09"
+        izz="0.000248912943667171" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/low_qual/lf_calf_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/low_qual/lf_calf_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="LF_KNEE"
+    type="revolute">
+    <origin
+      xyz="0.14707 -0.034829 0.0022602"
+      rpy="0 0 0.93771" />
+    <parent
+      link="lf_thigh_link" />
+    <child
+      link="lf_calf_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-0.6"
+      upper="1.5"
+      effort="4"
+      velocity="0.188" />
+  </joint>
+  <link
+    name="rf_shoulder_link">
+    <inertial>
+      <origin
+        xyz="-0.030838 0.010759 -0.045563"
+        rpy="0 0 0" />
+      <mass
+        value="0.082397" />
+      <inertia
+        ixx="1.9553E-05"
+        ixy="2.0806E-07"
+        ixz="-3.2173E-07"
+        iyy="1.9066E-05"
+        iyz="9.7295E-07"
+        izz="2.1806E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/low_qual/rf_shoulder_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/low_qual/rf_shoulder_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="RF_ARMPIT"
+    type="revolute">
+    <origin
+      xyz="0.086926 -0.04808 0.020486"
+      rpy="1.5736 5.102E-05 3.1416" />
+    <parent
+      link="base_link" />
+    <child
+      link="rf_shoulder_link" />
+    <axis
+      xyz="1 5.102E-05 0" />
+    <limit
+      lower="-0.6"
+      upper="0.6"
+      effort="4"
+      velocity="0.188" />
+  </joint>
+  <link
+    name="rf_thigh_link">
+    <inertial>
+      <origin
+        xyz="0.059996319544716 -0.0341838862880749 -0.0326354177099718"
+        rpy="0 0 0" />
+      <mass
+        value="0.204666659119259" />
+      <inertia
+        ixx="5.26405020771446E-05"
+        ixy="-6.87045925823286E-06"
+        ixz="-9.16134381790139E-09"
+        iyy="0.000207700318237006"
+        iyz="4.24645067196885E-10"
+        izz="0.000196694737864689" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/low_qual/rf_thigh_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/low_qual/rf_thigh_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="RF_ELBOW"
+    type="revolute">
+    <origin
+      xyz="-0.029276 -0.01466 -0.020328"
+      rpy="0 0 -0.42784" />
+    <parent
+      link="rf_shoulder_link" />
+    <child
+      link="rf_thigh_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1"
+      upper="1.2"
+      effort="4"
+      velocity="0.188" />
+  </joint>
+  <link
+    name="rf_calf_link">
+    <inertial>
+      <origin
+        xyz="-0.0562746594086836 -0.031201912312426 -0.0304061026125255"
+        rpy="0 0 0" />
+      <mass
+        value="0.124150283030027" />
+      <inertia
+        ixx="2.71331044981176E-05"
+        ixy="6.52340639611649E-06"
+        ixz="-7.24574922911367E-09"
+        iyy="0.000259454989110842"
+        iyz="3.51796278658813E-09"
+        izz="0.000248912583960562" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/low_qual/rf_calf_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/low_qual/rf_calf_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="RF_KNEE"
+    type="revolute">
+    <origin
+      xyz="0.14707 -0.034829 -0.0017563"
+      rpy="0 0 0.93378" />
+    <parent
+      link="rf_thigh_link" />
+    <child
+      link="rf_calf_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-0.6"
+      upper="1.5"
+      effort="4"
+      velocity="0.188" />
+  </joint>
+  <link
+    name="lb_shoulder_link">
+    <inertial>
+      <origin
+        xyz="0.0268112424173798 0.0107596960598041 0.0457636308417059"
+        rpy="0 0 0" />
+      <mass
+        value="0.0823995961404887" />
+      <inertia
+        ixx="1.95534937544982E-05"
+        ixy="2.08177132098421E-07"
+        ixz="3.21769091341535E-07"
+        iyy="1.90668948433689E-05"
+        iyz="-9.60105437391446E-07"
+        izz="2.1805721300216E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/low_qual/lb_shoulder_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/low_qual/lb_shoulder_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="LB_ARMPIT"
+    type="revolute">
+    <origin
+      xyz="-0.090843 0.04808 0.020486"
+      rpy="1.5668 -5.102E-05 -3.1416" />
+    <parent
+      link="base_link" />
+    <child
+      link="lb_shoulder_link" />
+    <axis
+      xyz="1 -5.102E-05 0" />
+    <limit
+      lower="-0.6"
+      upper="0.6"
+      effort="4"
+      velocity="0.188" />
+  </joint>
+  <link
+    name="lb_thigh_link">
+    <inertial>
+      <origin
+        xyz="0.0599962531882521 -0.0341838743931865 0.0323774662751334"
+        rpy="0 0 0" />
+      <mass
+        value="0.204667094970786" />
+      <inertia
+        ixx="5.26405893727808E-05"
+        ixy="-6.87037873543066E-06"
+        ixz="-9.16501184768225E-09"
+        iyy="0.000207700430481537"
+        iyz="4.05445574988764E-10"
+        izz="0.00019669493307742" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/low_qual/lb_thigh_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/low_qual/lb_thigh_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="LB_ELBOW"
+    type="revolute">
+    <origin
+      xyz="0.028287 -0.014659 0.021201"
+      rpy="0 0 -0.46494" />
+    <parent
+      link="lb_shoulder_link" />
+    <child
+      link="lb_thigh_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1"
+      upper="1.2"
+      effort="4"
+      velocity="0.188" />
+  </joint>
+  <link
+    name="lb_calf_link">
+    <inertial>
+      <origin
+        xyz="-0.0562746283337433 -0.0312019131985415 0.0300903536116095"
+        rpy="0 0 0" />
+      <mass
+        value="0.124150345082354" />
+      <inertia
+        ixx="2.71331212983521E-05"
+        ixy="6.52346284637176E-06"
+        ixz="-6.71092220781001E-09"
+        iyy="0.000259455087280996"
+        iyz="3.48846832947781E-09"
+        izz="0.000248912689473426" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/low_qual/lb_calf_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/low_qual/lb_calf_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="LB_KNEE"
+    type="revolute">
+    <origin
+      xyz="0.14707 -0.034829 0.0022602"
+      rpy="0 0 0.97678" />
+    <parent
+      link="lb_thigh_link" />
+    <child
+      link="lb_calf_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-0.6"
+      upper="1.5"
+      effort="4"
+      velocity="0.188" />
+  </joint>
+  <link
+    name="rb_shoulder_link">
+    <inertial>
+      <origin
+        xyz="0.0267231655282443 0.010762075261042 -0.0455633379422674"
+        rpy="0 0 0" />
+      <mass
+        value="0.0823973934424499" />
+      <inertia
+        ixx="1.95529733228597E-05"
+        ixy="2.08060157237391E-07"
+        ixz="-3.21734054822669E-07"
+        iyy="1.90663267893417E-05"
+        iyz="9.7294659149752E-07"
+        izz="2.18055626025946E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/low_qual/rb_shoulder_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/low_qual/rb_shoulder_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="RB_ARMPIT"
+    type="revolute">
+    <origin
+      xyz="-0.090333 -0.04808 0.020486"
+      rpy="1.5701 5.102E-05 -3.1416" />
+    <parent
+      link="base_link" />
+    <child
+      link="rb_shoulder_link" />
+    <axis
+      xyz="1 5.102E-05 0" />
+    <limit
+      lower="-0.6"
+      upper="0.6"
+      effort="4"
+      velocity="0.188" />
+  </joint>
+  <link
+    name="rb_thigh_link">
+    <inertial>
+      <origin
+        xyz="0.0599962641867017 -0.0341838839492449 -0.0322633194933277"
+        rpy="0 0 0" />
+      <mass
+        value="0.204666926145609" />
+      <inertia
+        ixx="5.26405352597993E-05"
+        ixy="-6.87043903505302E-06"
+        ixz="-9.13736190376255E-09"
+        iyy="0.000207700313943162"
+        iyz="3.89261437438874E-10"
+        izz="0.000196694776060325" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/low_qual/rb_thigh_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/low_qual/rb_thigh_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="RB_ELBOW"
+    type="revolute">
+    <origin
+      xyz="0.028285 -0.014657 -0.0207"
+      rpy="0 0 -0.46283" />
+    <parent
+      link="rb_shoulder_link" />
+    <child
+      link="rb_thigh_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1"
+      upper="1.2"
+      effort="4"
+      velocity="0.188" />
+  </joint>
+  <link
+    name="rb_calf_link">
+    <inertial>
+      <origin
+        xyz="-0.0562746202737299 -0.031201906093811 -0.0300128862017215"
+        rpy="0 0 0" />
+      <mass
+        value="0.124150292571281" />
+      <inertia
+        ixx="2.71331103837322E-05"
+        ixy="6.52354994917408E-06"
+        ixz="-6.97162935785559E-09"
+        iyy="0.000259454856699454"
+        iyz="3.50104288566254E-09"
+        izz="0.0002489124593" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/low_qual/rb_calf_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/low_qual/rb_calf_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="RB_KNEE"
+    type="revolute">
+    <origin
+      xyz="0.14707 -0.034829 -0.0017774"
+      rpy="0 0 0.9789" />
+    <parent
+      link="rb_thigh_link" />
+    <child
+      link="rb_calf_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-0.6"
+      upper="1.5"
+      effort="4"
+      velocity="0.188" />
+  </joint>
+</robot>

@@ -50,7 +50,7 @@ class PinkPantherEnv(gym.Env):
         planeId = p.loadURDF("envs/assets/PinkPanther_CML/plane/plane.urdf")
         robotStartPos = [0,0,0.2]
         robotStartOrientation = p.getQuaternionFromEuler([0,0,0])
-        self.robotid = p.loadURDF("envs/assets/PinkPanther_CML/urdf/PinkPanther_CML.urdf", robotStartPos, robotStartOrientation)
+        self.robotid = p.loadURDF("envs/assets/PinkPanther_CML/urdf/pp_urdf_final.urdf", robotStartPos, robotStartOrientation)
         self.p, self.q = p.getBasePositionAndOrientation(self.robotid)
         self.p, self.q = np.array(self.p), np.array(self.q)
         self.i = 0

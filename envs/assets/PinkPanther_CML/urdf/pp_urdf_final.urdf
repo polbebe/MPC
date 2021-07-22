@@ -1,0 +1,720 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.5.1-0-g916b5db  Build Version: 1.5.7152.31018
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="PinkPanther_CML">
+  <material name="light_pink">
+    <color rgba="0.906 0.329 0.502 1"/>
+  </material>
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="0.00330331665446667 0.0134210233318688 0.000330796304878542"
+        rpy="0 0 0" />
+      <mass
+        value="0.943175379685331" />
+      <inertia
+        ixx="0.000843754097456323"
+        ixy="-9.02236540608445E-05"
+        ixz="-1.97983849821466E-07"
+        iyy="0.00333595130361869"
+        iyz="-6.67405147906829E-08"
+        izz="0.00280083806021279" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="light_pink">
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="lf_scapula_link">
+    <inertial>
+      <origin
+        xyz="-0.03075 0.010763 0.045764"
+        rpy="0 0 0" />
+      <mass
+        value="0.0824" />
+      <inertia
+        ixx="1.9553E-05"
+        ixy="2.0818E-07"
+        ixz="3.2177E-07"
+        iyy="1.9067E-05"
+        iyz="-9.6011E-07"
+        izz="2.1806E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/lf_shoulder_link.STL" />
+      </geometry>
+      <material
+        name="light_pink">
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/lf_shoulder_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="lf_armpit_joint"
+    type="revolute">
+    <origin
+      xyz="0.086416 0.04808 0.020486"
+      rpy="1.5666 -5.102E-05 3.1416" />
+    <parent
+      link="base_link" />
+    <child
+      link="lf_scapula_link" />
+    <axis
+      xyz="1 -5.102E-05 0" />
+    <limit
+      lower="-0.3"
+      upper="0.3"
+      effort="1.667"
+      velocity="6.545" />
+  </joint>
+  <link
+    name="lf_humerus_link">
+    <inertial>
+      <origin
+        xyz="0.059996 -0.034184 0.032377"
+        rpy="0 0 0" />
+      <mass
+        value="0.20467" />
+      <inertia
+        ixx="5.2641E-05"
+        ixy="-6.8704E-06"
+        ixz="-9.1195E-09"
+        iyy="0.0002077"
+        iyz="4.2931E-10"
+        izz="0.00019669" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/lf_thigh_link.STL" />
+      </geometry>
+      <material
+        name="light_pink">
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/lf_thigh_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="lf_shoulder_joint"
+    type="revolute">
+    <origin
+      xyz="-0.029275 -0.014657 0.021201"
+      rpy="0 0 -0.43549" />
+    <parent
+      link="lf_scapula_link" />
+    <child
+      link="lf_humerus_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-0.3"
+      upper="1.2"
+      effort="1.667"
+      velocity="6.545" />
+  </joint>
+  <link
+    name="lf_ulna_link">
+    <inertial>
+      <origin
+        xyz="-0.0562746607594241 -0.0312019222312566 0.0300902624876031"
+        rpy="0 0 0" />
+      <mass
+        value="0.129518977611389" />
+      <inertia
+        ixx="2.77037088503312E-05"
+        ixy="6.55368550236014E-06"
+        ixz="1.06768612045409E-09"
+        iyy="0.000261061310693975"
+        iyz="2.95073964447291E-09"
+        izz="0.000250498590500445" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/left_ulna_link.STL" />
+      </geometry>
+      <material
+        name="light_pink">
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/left_ulna_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="lf_elbow_joint"
+    type="revolute">
+    <origin
+      xyz="0.14707 -0.034829 0.0022602"
+      rpy="0 0 0.93771" />
+    <parent
+      link="lf_humerus_link" />
+    <child
+      link="lf_ulna_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-0.9"
+      upper="1.2"
+      effort="1.667"
+      velocity="6.545" />
+  </joint>
+  <link
+    name="rf_scapula_link">
+    <inertial>
+      <origin
+        xyz="-0.030838 0.010759 -0.045563"
+        rpy="0 0 0" />
+      <mass
+        value="0.082397" />
+      <inertia
+        ixx="1.9553E-05"
+        ixy="2.0806E-07"
+        ixz="-3.2173E-07"
+        iyy="1.9066E-05"
+        iyz="9.7295E-07"
+        izz="2.1806E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/rf_shoulder_link.STL" />
+      </geometry>
+      <material
+        name="light_pink">
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/rf_shoulder_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="rf_armpit_joint"
+    type="revolute">
+    <origin
+      xyz="0.086926 -0.04808 0.020486"
+      rpy="1.5736 5.102E-05 3.1416" />
+    <parent
+      link="base_link" />
+    <child
+      link="rf_scapula_link" />
+    <axis
+      xyz="1 5.102E-05 0" />
+    <limit
+      lower="-0.3"
+      upper="0.3"
+      effort="1.667"
+      velocity="6.545" />
+  </joint>
+  <link
+    name="rf_humerus_link">
+    <inertial>
+      <origin
+        xyz="0.059996319544716 -0.0341838862880749 -0.0326354177099718"
+        rpy="0 0 0" />
+      <mass
+        value="0.204666659119259" />
+      <inertia
+        ixx="5.26405020771446E-05"
+        ixy="-6.87045925823286E-06"
+        ixz="-9.16134381790139E-09"
+        iyy="0.000207700318237006"
+        iyz="4.24645067196885E-10"
+        izz="0.000196694737864689" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0.0055"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/rf_thigh_link.STL" />
+      </geometry>
+      <material
+        name="light_pink">
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0.0055"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/rf_thigh_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="rf_shoulder_joint"
+    type="revolute">
+    <origin
+      xyz="-0.029276 -0.01466 -0.020328"
+      rpy="0 0 -0.42784" />
+    <parent
+      link="rf_scapula_link" />
+    <child
+      link="rf_humerus_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-0.3"
+      upper="1.2"
+      effort="1.667"
+      velocity="6.545" />
+  </joint>
+  <link
+    name="rf_ulna_link">
+    <inertial>
+      <origin
+        xyz="-0.0562746594086836 -0.031201912312426 -0.0304061026125255"
+        rpy="0 0 0" />
+      <mass
+        value="0.129518977475394" />
+      <inertia
+        ixx="2.77037089316128E-05"
+        ixy="6.55368523649855E-06"
+        ixz="1.06766509147501E-09"
+        iyy="0.000261061310715708"
+        iyz="2.95075193535627E-09"
+        izz="0.000250498590422263" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 -0.0005"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/right_ulna_link.STL" />
+      </geometry>
+      <material
+        name="light_pink">
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 -0.0005"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/right_ulna_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="rf_elbow_joint"
+    type="revolute">
+    <origin
+      xyz="0.14707 -0.034829 -0.0017563"
+      rpy="0 0 0.93378" />
+    <parent
+      link="rf_humerus_link" />
+    <child
+      link="rf_ulna_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-0.9"
+      upper="1.2"
+      effort="1.667"
+      velocity="6.545" />
+  </joint>
+  <link
+    name="lb_scapula_link">
+    <inertial>
+      <origin
+        xyz="0.0268112424173798 0.0107596960598041 0.0457636308417059"
+        rpy="0 0 0" />
+      <mass
+        value="0.0823995961404887" />
+      <inertia
+        ixx="1.95534937544982E-05"
+        ixy="2.08177132098421E-07"
+        ixz="3.21769091341535E-07"
+        iyy="1.90668948433689E-05"
+        iyz="-9.60105437391446E-07"
+        izz="2.1805721300216E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0.0057 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/lb_shoulder_link.STL" />
+      </geometry>
+      <material
+        name="light_pink">
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0.0057 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/lb_shoulder_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="lb_armpit_joint"
+    type="revolute">
+    <origin
+      xyz="-0.090843 0.04808 0.020486"
+      rpy="1.5668 -5.102E-05 -3.1416" />
+    <parent
+      link="base_link" />
+    <child
+      link="lb_scapula_link" />
+    <axis
+      xyz="1 -5.102E-05 0" />
+    <limit
+      lower="-0.3"
+      upper="0.3"
+      effort="1.667"
+      velocity="6.545" />
+  </joint>
+  <link
+    name="lb_humerus_link">
+    <inertial>
+      <origin
+        xyz="0.0599962531882521 -0.0341838743931865 0.0323774662751334"
+        rpy="0 0 0" />
+      <mass
+        value="0.204667094970786" />
+      <inertia
+        ixx="5.26405893727808E-05"
+        ixy="-6.87037873543066E-06"
+        ixz="-9.16501184768225E-09"
+        iyy="0.000207700430481537"
+        iyz="4.05445574988764E-10"
+        izz="0.00019669493307742" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/lb_thigh_link.STL" />
+      </geometry>
+      <material
+        name="light_pink">
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/lb_thigh_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="lb_shoulder_joint"
+    type="revolute">
+    <origin
+      xyz="0.028287 -0.014659 0.021201"
+      rpy="0 0 -0.46494" />
+    <parent
+      link="lb_scapula_link" />
+    <child
+      link="lb_humerus_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-0.3"
+      upper="1.2"
+      effort="1.667"
+      velocity="6.545" />
+  </joint>
+  <link
+    name="lb_ulna_link">
+    <inertial>
+      <origin
+        xyz="-0.0562746283337433 -0.0312019131985415 0.0300903536116095"
+        rpy="0 0 0" />
+      <mass
+        value="0.129518977611384" />
+      <inertia
+        ixx="2.77037088503135E-05"
+        ixy="6.5536855023707E-06"
+        ixz="1.067686122188E-09"
+        iyy="0.00026106131069397"
+        iyz="2.95073964434943E-09"
+        izz="0.000250498590500422" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/left_ulna_link.STL" />
+      </geometry>
+      <material
+        name="light_pink">
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/left_ulna_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="lb_elbow_joint"
+    type="revolute">
+    <origin
+      xyz="0.14707 -0.034829 0.0022602"
+      rpy="0 0 0.97678" />
+    <parent
+      link="lb_humerus_link" />
+    <child
+      link="lb_ulna_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-0.9"
+      upper="1.2"
+      effort="1.667"
+      velocity="6.545" />
+  </joint>
+  <link
+    name="rb_scapula_link">
+    <inertial>
+      <origin
+        xyz="0.0267231655282443 0.010762075261042 -0.0455633379422674"
+        rpy="0 0 0" />
+      <mass
+        value="0.0823973934424499" />
+      <inertia
+        ixx="1.95529733228597E-05"
+        ixy="2.08060157237391E-07"
+        ixz="-3.21734054822669E-07"
+        iyy="1.90663267893417E-05"
+        iyz="9.7294659149752E-07"
+        izz="2.18055626025946E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0.0069 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/rb_shoulder_link.STL" />
+      </geometry>
+      <material
+        name="light_pink">
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0.0069 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/rb_shoulder_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="rb_armpit_joint"
+    type="revolute">
+    <origin
+      xyz="-0.090333 -0.04808 0.020486"
+      rpy="1.5701 5.102E-05 -3.1416" />
+    <parent
+      link="base_link" />
+    <child
+      link="rb_scapula_link" />
+    <axis
+      xyz="1 5.102E-05 0" />
+    <limit
+      lower="-0.3"
+      upper="0.3"
+      effort="1.667"
+      velocity="6.545" />
+  </joint>
+  <link
+    name="rb_humerus_link">
+    <inertial>
+      <origin
+        xyz="0.0599962641867017 -0.0341838839492449 -0.0322633194933277"
+        rpy="0 0 0" />
+      <mass
+        value="0.204666926145609" />
+      <inertia
+        ixx="5.26405352597993E-05"
+        ixy="-6.87043903505302E-06"
+        ixz="-9.13736190376255E-09"
+        iyy="0.000207700313943162"
+        iyz="3.89261437438874E-10"
+        izz="0.000196694776060325" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/rb_thigh_link.STL" />
+      </geometry>
+      <material
+        name="light_pink">
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/rb_thigh_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="rb_shoulder_joint"
+    type="revolute">
+    <origin
+      xyz="0.028285 -0.014657 -0.0207"
+      rpy="0 0 -0.46283" />
+    <parent
+      link="rb_scapula_link" />
+    <child
+      link="rb_humerus_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-0.3"
+      upper="1.2"
+      effort="1.667"
+      velocity="6.545" />
+  </joint>
+  <link
+    name="rb_ulna_link">
+    <inertial>
+      <origin
+        xyz="-0.0562746202737299 -0.031201906093811 -0.0300128862017215"
+        rpy="0 0 0" />
+      <mass
+        value="0.129518977475398" />
+      <inertia
+        ixx="2.77037089314467E-05"
+        ixy="6.55368523649099E-06"
+        ixz="1.0676650903247E-09"
+        iyy="0.000261061310715554"
+        iyz="2.95075193519628E-09"
+        izz="0.000250498590422122" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/right_ulna_link.STL" />
+      </geometry>
+      <material
+        name="light_pink">
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PinkPanther_CML/meshes/right_ulna_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="rb_elbow_joint"
+    type="revolute">
+    <origin
+      xyz="0.14707 -0.034829 -0.0017774"
+      rpy="0 0 0.9789" />
+    <parent
+      link="rb_humerus_link" />
+    <child
+      link="rb_ulna_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-0.9"
+      upper="1.2"
+      effort="1.667"
+      velocity="6.545" />
+  </joint>
+</robot>

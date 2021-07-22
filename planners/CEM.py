@@ -68,9 +68,9 @@ if __name__ == '__main__':
     import time
     import sys
     from sims.sinGaitSim import sinGaitSim, act
-    from envs.pinkpanther import PinkPantherEnv
+    from envs.PinkPantherEnv import PinkPantherEnv
     nsteps = 1
-    env = PinkPantherEnv(render=True)
+    env = PinkPantherEnv(render=False)
     env = sinGaitSim(env)
     # env.render(mode='human')
     planner = CEM(env, env.action_space)
@@ -83,7 +83,7 @@ if __name__ == '__main__':
     start = time.time()
     params = planner.plan_move(obs, action_seq, nsteps=nsteps)
     print(params)
-    env = PinkPantherEnv(render=True)
+    env = PinkPantherEnv(render=False)
     while True:
         R = 0
         obs = env.reset()
